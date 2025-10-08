@@ -25,10 +25,7 @@
         <div id="player" data-plyr-provider="rutube" data-plyr-embed-id="7716bd3e665725c3c008ae7ab4ff02e2"></div>
     </div>
 
-    <div class="test-video">
-        <h2>RUTUBE Video with Parameters</h2>
-        <div id="player2" data-plyr-provider="rutube" data-plyr-embed-id="7716bd3e665725c3c008ae7ab4ff02e2?t=30&skinColor=7cb342"></div>
-    </div>
+
 
     <script src="dist/plyr.js"></script>
     <script>
@@ -38,7 +35,7 @@
             // Initialize Plyr for RUTUBE videos
             const players = Plyr.setup('[data-plyr-provider="rutube"]', {
                 controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                autoplay: false,
+                autoplay: true,
                 clickToPlay: true,
                 hideControls: true,
                 resetOnEnd: false,
@@ -47,7 +44,7 @@
 
             console.log('RUTUBE players initialized:', players.length);
 
-            // Add event listeners for testing
+            // Add comprehensive event listeners for testing
             players.forEach(function(player, index) {
                 console.log(`Setting up event listeners for player ${index + 1}`);
 
@@ -55,6 +52,8 @@
                     console.log(`✅ Player ${index + 1} is ready!`);
                     console.log('Duration:', player.duration);
                     console.log('Current time:', player.currentTime);
+                    console.log('Provider:', player.provider);
+                    console.log('Type:', player.type);
                 });
 
                 player.on('play', function() {
@@ -80,6 +79,15 @@
                 player.on('error', function(error) {
                     console.error(`❌ Player ${index + 1} error:`, error);
                 });
+
+                // Test programmatic control
+                setTimeout(() => {
+                    console.log(`Testing player ${index + 1} controls...`);
+                    console.log('Player playing:', player.playing);
+                    console.log('Player paused:', player.paused);
+                    console.log('Player volume:', player.volume);
+                    console.log('Player muted:', player.muted);
+                }, 2000);
             });
 
             console.log('=== RUTUBE Final Fixed Test Setup Complete ===');

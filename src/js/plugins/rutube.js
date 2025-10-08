@@ -98,6 +98,10 @@ const rutube = {
 
     setAspectRatio.call(player);
 
+    // Add throttling for timeupdate events to prevent UI thrashing
+    let lastTimeUpdate = 0;
+    const TIMEUPDATE_THROTTLE = 100; // ms
+
     // Set media properties
     player.media.paused = true;
     // Don't set currentTime to 0 to avoid triggering seeking
@@ -291,10 +295,21 @@ const rutube = {
 
       case 'player:currentTime':
         // RUTUBE sends currentTime and duration in the same event
-        if (data.currentTime !== undefined) {
-          player.media.seeking = false;
-          player.media.currentTime = data.currentTime;
-          triggerEvent.call(player, player.media, 'timeupdate');
+        if (data.currentTime !== undefined && player.media) {
+          const currentTime = data.currentTime;
+          const lastCurrentTime = player.media.currentTime;
+          const now = Date.now();
+
+          // Throttle timeupdate events to prevent UI thrashing
+          if (now - lastTimeUpdate > TIMEUPDATE_THROTTLE) {
+            // Only update if time has actually changed significantly
+            if (Math.abs(currentTime - lastCurrentTime) > 0.1 || currentTime === 0) {
+              player.media.seeking = false;
+              player.media.currentTime = currentTime;
+              triggerEvent.call(player, player.media, 'timeupdate');
+              lastTimeUpdate = now;
+            }
+          }
         }
         if (data.duration && player.media.duration !== data.duration) {
           player.media.duration = data.duration;
