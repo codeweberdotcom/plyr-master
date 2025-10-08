@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUTUBE Plyr Test (iframe)</title>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.8.3/plyr.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-video {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>RUTUBE Plyr Integration Test (iframe)</h1>
+
+    <div class="test-video">
+        <h2>RUTUBE Video Test (iframe)</h2>
+        <iframe
+            src="https://rutube.ru/play/embed/7716bd3e665725c3c008ae7ab4ff02e2"
+            width="640"
+            height="360"
+            frameborder="0"
+            allow="clipboard-write; autoplay"
+            allowfullscreen
+        ></iframe>
+    </div>
+
+    <div class="test-video">
+        <h2>RUTUBE Video with Parameters (iframe)</h2>
+        <iframe
+            src="https://rutube.ru/play/embed/7716bd3e665725c3c008ae7ab4ff02e2?t=30&skinColor=7cb342"
+            width="640"
+            height="360"
+            frameborder="0"
+            allow="clipboard-write; autoplay"
+            allowfullscreen
+        ></iframe>
+    </div>
+
+    <script src="https://cdn.plyr.io/3.8.3/plyr.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Plyr for RUTUBE iframes
+            const players = Array.from(document.querySelectorAll('iframe[src*="rutube.ru"]')).map(function(el) {
+                return new Plyr(el, {
+                    controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                    autoplay: false,
+                    clickToPlay: true,
+                    hideControls: true,
+                    resetOnEnd: false,
+                });
+            });
+
+            console.log('RUTUBE iframe players initialized:', players.length);
+        });
+    </script>
+</body>
+</html>

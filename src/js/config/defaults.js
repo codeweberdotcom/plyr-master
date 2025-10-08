@@ -205,6 +205,9 @@ const defaults = {
       sdk: 'https://www.youtube.com/iframe_api',
       api: 'https://noembed.com/embed?url=https://www.youtube.com/watch?v={0}',
     },
+    rutube: {
+      iframe: 'https://rutube.ru/play/embed/{0}',
+    },
     googleIMA: {
       sdk: 'https://imasdk.googleapis.com/js/sdkloader/ima3.js',
     },
@@ -439,6 +442,12 @@ const defaults = {
     // Custom settings from Plyr
     customControls: true,
     noCookie: false, // Whether to use an alternative version of YouTube without cookies
+  },
+
+  // RUTUBE plugin
+  rutube: {
+    // Custom settings from Plyr
+    customControls: true,
   },
 
   // Media Metadata

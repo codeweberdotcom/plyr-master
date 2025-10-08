@@ -1,0 +1,20 @@
+// ==========================================================================
+// RUTUBE plugin styles
+// ==========================================================================
+
+// RUTUBE provider specific styles
+.plyr--rutube {
+  .plyr__video-wrapper {
+    background: var(--plyr-video-background, #000);
+  }
+
+  // Ensure iframe is properly sized
+  .plyr__video-embed iframe {
+    border: 0;
+  }
+
+  // Responsive behavior
+  &.plyr--full-ui .plyr__video-embed {
+    border-radius: inherit;
+  }
+}

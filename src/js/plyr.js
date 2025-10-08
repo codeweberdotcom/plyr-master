@@ -201,10 +201,25 @@ class Plyr {
         }
         else {
           // <div> with attributes
-          this.provider = this.media.getAttribute(this.config.attributes.embed.provider);
+          const providerAttr = this.media.getAttribute(this.config.attributes.embed.provider);
+          const embedId = this.media.getAttribute(this.config.attributes.embed.id);
 
-          // Remove attribute
-          this.media.removeAttribute(this.config.attributes.embed.provider);
+          if (providerAttr) {
+            // Provider explicitly set
+            this.provider = providerAttr;
+            // Remove attribute
+            this.media.removeAttribute(this.config.attributes.embed.provider);
+          } else if (embedId) {
+            // Try to detect provider from embed ID
+            const url = `https://rutube.ru/play/embed/${embedId}`;
+            this.provider = getProviderByUrl(url);
+
+            // Debug logging
+            if (this.config.debug) {
+              console.log('RUTUBE URL:', url);
+              console.log('Detected provider:', this.provider);
+            }
+          }
         }
 
         // Unsupported or missing provider
@@ -335,7 +350,7 @@ class Plyr {
   }
 
   get isEmbed() {
-    return this.isYouTube || this.isVimeo;
+    return this.isYouTube || this.isVimeo || this.isRUTUBE;
   }
 
   get isYouTube() {
@@ -344,6 +359,10 @@ class Plyr {
 
   get isVimeo() {
     return this.provider === providers.vimeo;
+  }
+
+  get isRUTUBE() {
+    return this.provider === providers.rutube;
   }
 
   get isVideo() {
@@ -1233,6 +1252,15 @@ class Plyr {
 
       // Vimeo does not always return
       setTimeout(done, 200);
+    }
+    else if (this.isRUTUBE) {
+      // Remove message listener
+      if (this.embed && this.embed.messageHandler) {
+        window.removeEventListener('message', this.embed.messageHandler);
+      }
+
+      // Clean up
+      done();
     }
   };
 

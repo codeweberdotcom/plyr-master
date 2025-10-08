@@ -47,5 +47,6 @@
     "pcss",
     "postcss",
     "svg"
-  ]
+  ],
+  "CodeGPT.apiKey": "Anthropic"
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUTUBE Simple Test</title>
+    <link rel="stylesheet" href="dist/plyr.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-video {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>RUTUBE Simple Test</h1>
+
+
+    <div class="test-video">
+        <h2>RUTUBE Video with Parameters</h2>
+        <div data-plyr-embed-id="7716bd3e665725c3c008ae7ab4ff02e2?t=30&skinColor=7cb342"></div>
+    </div>
+
+    <script src="dist/plyr.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Plyr for RUTUBE videos
+            const players = Plyr.setup('[data-plyr-embed-id]', {
+                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                autoplay: false,
+                clickToPlay: true,
+                hideControls: true,
+                resetOnEnd: false,
+            });
+
+            console.log('RUTUBE players initialized:', players.length);
+
+            // Add event listeners for testing
+            players.forEach(function(player, index) {
+                player.on('ready', function() {
+                    console.log('Player ' + (index + 1) + ' is ready!');
+                });
+
+                player.on('play', function() {
+                    console.log('Player ' + (index + 1) + ' started playing');
+                });
+
+                player.on('pause', function() {
+                    console.log('Player ' + (index + 1) + ' paused');
+                });
+
+                player.on('error', function(error) {
+                    console.error('Player ' + (index + 1) + ' error:', error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUTUBE Debug Test</title>
+    <link rel="stylesheet" href="dist/plyr.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-video {
+            margin: 20px 0;
+        }
+        .debug-info {
+            background: #f5f5f5;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>RUTUBE Debug Test</h1>
+
+    <div class="debug-info">
+        <strong>Debug Console:</strong><br>
+        Open browser console (F12) to see detailed debug information
+    </div>
+
+    <div class="test-video">
+        <h2>RUTUBE Video Test</h2>
+        <div id="player" data-plyr-provider="rutube" data-plyr-embed-id="7716bd3e665725c3c008ae7ab4ff02e2"></div>
+    </div>
+
+    <div class="test-video">
+        <h2>RUTUBE Video with Parameters</h2>
+        <div id="player2" data-plyr-provider="rutube" data-plyr-embed-id="7716bd3e665725c3c008ae7ab4ff02e2?t=30&skinColor=7cb342"></div>
+    </div>
+
+    <script src="dist/plyr.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== RUTUBE Debug Test Started ===');
+
+            // Initialize Plyr for RUTUBE videos
+            const players = Plyr.setup('[data-plyr-provider="rutube"]', {
+                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+                autoplay: false,
+                clickToPlay: true,
+                hideControls: true,
+                resetOnEnd: false,
+                debug: true, // Enable debug mode to see all events
+            });
+
+            console.log('RUTUBE players initialized:', players.length);
+
+            // Add comprehensive event listeners for testing
+            players.forEach(function(player, index) {
+                console.log(`Setting up event listeners for player ${index + 1}`);
+
+                player.on('ready', function() {
+                    console.log(`✅ Player ${index + 1} is ready!`);
+                    console.log('Player provider:', player.provider);
+                    console.log('Player type:', player.type);
+                    console.log('Player isRUTUBE:', player.isRUTUBE);
+                });
+
+                player.on('play', function() {
+                    console.log(`▶️ Player ${index + 1} started playing`);
+                });
+
+                player.on('pause', function() {
+                    console.log(`⏸️ Player ${index + 1} paused`);
+                });
+
+                player.on('ended', function() {
+                    console.log(`⏹️ Player ${index + 1} ended`);
+                });
+
+                player.on('error', function(error) {
+                    console.error(`❌ Player ${index + 1} error:`, error);
+                });
+
+                player.on('statechange', function(event) {
+                    console.log(`🔄 Player ${index + 1} state change:`, event.detail);
+                });
+
+                player.on('timeupdate', function() {
+                    console.log(`⏰ Player ${index + 1} time update:`, player.currentTime);
+                });
+
+                player.on('durationchange', function() {
+                    console.log(`📏 Player ${index + 1} duration change:`, player.duration);
+                });
+
+                player.on('loadedmetadata', function() {
+                    console.log(`📋 Player ${index + 1} loaded metadata`);
+                });
+
+                player.on('canplay', function() {
+                    console.log(`🎬 Player ${index + 1} can play`);
+                });
+            });
+
+            console.log('=== RUTUBE Debug Test Setup Complete ===');
+        });
+    </script>
+</body>
+</html>

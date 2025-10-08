@@ -3,6 +3,7 @@
 // ==========================================================================
 
 import html5 from './html5';
+import rutube from './plugins/rutube';
 import vimeo from './plugins/vimeo';
 import youtube from './plugins/youtube';
 import { createElement, toggleClass, wrap } from './utils/elements';
@@ -54,6 +55,9 @@ const media = {
     }
     else if (this.isVimeo) {
       vimeo.setup.call(this);
+    }
+    else if (this.isRUTUBE) {
+      rutube.setup.call(this);
     }
   },
 };
